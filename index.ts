@@ -1,11 +1,10 @@
 import express, { Express } from 'express';
-
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import config from './config';
+import config from './config/config';
 
 import { rootRouter } from './routes';
 
