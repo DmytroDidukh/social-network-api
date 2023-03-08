@@ -4,7 +4,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 
-import config from './config/config';
+import config from 'config/config';
 
 import { rootRouter } from './routes';
 

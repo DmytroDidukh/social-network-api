@@ -2,11 +2,11 @@
   "name": "social-network-api",
   "version": "1.0.0",
   "description": "",
-  "main": "index.ts",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon index.ts",
-    "lint:js": "eslint --fix --ext .js ./",
-    "lint:ts": "eslint --fix --ext .ts ./",
+    "start": "nodemon src/index.ts",
+    "lint:js": "eslint **/*.js --fix",
+    "lint:ts": "eslint **/*.ts --fix",
     "lint-staged": "lint-staged"
   },
   "husky": {
@@ -15,10 +15,6 @@
     }
   },
   "lint-staged": {
-    "*.js": [
-      "prettier --write",
-      "npm run lint:js"
-    ],
     "*.ts": [
       "prettier --write",
       "npm run lint:ts"
