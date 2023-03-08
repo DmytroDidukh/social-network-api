@@ -1,8 +1,7 @@
-import path from 'path';
 import dotenv from 'dotenv';
 
 // Parsing the env file.
-dotenv.config({ path: path.resolve(__dirname, '../config/config.env') });
+dotenv.config();
 
 // Interface to load env variables
 // Note these variables can possibly be undefined
@@ -39,7 +38,7 @@ const getConfig = (): ENV => {
 const getSanitizedConfig = (config: ENV): Config => {
     for (const [key, value] of Object.entries(config)) {
         if (value === undefined) {
-            throw new Error(`Missing key ${key} in config.env`);
+            throw new Error(`Missing key ${key} in .env`);
         }
     }
     return config as Config;
