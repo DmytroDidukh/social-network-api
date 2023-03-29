@@ -9,7 +9,7 @@
     "target": "es2017",
     "sourceMap": true,
     "outDir": "./dist",
-    "baseUrl": "./src",
+    "baseUrl": ".",
     "incremental": true,
     "skipLibCheck": true,
     "strictNullChecks": false,
@@ -17,13 +17,17 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
     "paths": {
-      "config/*": ["config/*"],
-      "controllers/*": ["controllers/*"],
-      "db/*": ["db/*"],
-      "models/*": ["models/*"],
-      "repositories/*": ["repositories/*"],
-      "routes/*": ["routes/*"]
+      "config/*": ["src/config/*"],
+      "controllers/*": ["src/controllers/*"],
+      "db/*": ["src/db/*"],
+      "models/*": ["src/models/*"],
+      "repositories/*": ["src/repositories/*"],
+      "routes/*": ["src/routes/*"],
     }
   },
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }
