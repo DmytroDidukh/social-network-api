@@ -1,21 +1,11 @@
 import { Schema, model } from 'mongoose';
-
-interface IUser {
-    username: string;
-    email: string;
-    password: string;
-    profilePicture?: string;
-    coverPicture?: string;
-    followers?: string[];
-    followings?: string[];
-    isAdmin: boolean;
-}
+import { IUser } from 'types/interfaces/user';
 
 const userSchema = new Schema<IUser>(
     {
-        username: { type: String, required: true, min: 3, max: 30, unique: true },
-        email: { type: String, required: true, max: 50, unique: true },
-        password: { type: String, required: true, min: 6, max: 16 },
+        username: { type: String, required: true, unique: true },
+        email: { type: String, required: true, unique: true },
+        passwordHash: { type: String, required: true },
         profilePicture: { type: String, default: '' },
         coverPicture: { type: String, default: '' },
         followers: { type: [String], default: [] },
@@ -25,6 +15,6 @@ const userSchema = new Schema<IUser>(
     { timestamps: true },
 );
 
-const User = model<IUser>('User', userSchema);
+const UserModel = model<IUser>('User', userSchema);
 
-export { User };
+export { UserModel };
