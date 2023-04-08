@@ -6,6 +6,7 @@ import morgan from 'morgan';
 
 import config from 'config/config';
 import { rootRouter } from 'routes/index';
+import { setupDatabase } from 'db/index';
 
 const app: Express = express();
 
@@ -20,6 +21,16 @@ app.use(cors());
 // ROUTES
 app.use(rootRouter);
 
-app.listen(config.PORT, () => {
-    console.log(`SERVER IS STARTED ON ${config.PORT}`);
-});
+async function runApplication() {
+    try {
+        await setupDatabase();
+
+        app.listen(config.PORT, () => {
+            console.log(`SERVER IS STARTED ON ${config.PORT}`);
+        });
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+runApplication();
