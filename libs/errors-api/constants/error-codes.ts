@@ -8,6 +8,8 @@ const ERROR_CODES = {
     NOT_FOUND: 404001,
     // 408
     REQUEST_TIMEOUT: 408001,
+    // 409
+    CONFLICT: 409001,
     // 500
     UNKNOWN: 500001,
 };
