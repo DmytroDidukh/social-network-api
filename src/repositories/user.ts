@@ -1,7 +1,7 @@
 import { UserModel } from 'models/user';
-import { IUser, IUserModel } from 'types/interfaces/user';
+import { IRegisterUserDto, IUser, IUserModel } from 'types/interfaces/user';
 
-const getByEmail = async (email: string): Promise<IUserModel | null> => {
+async function getByEmail(email: string): Promise<IUserModel | null> {
     if (!email) {
         // TODO: think about implementation of errors API
         throw new TypeError('you must pass the email');
@@ -10,10 +10,21 @@ const getByEmail = async (email: string): Promise<IUserModel | null> => {
     return UserModel.findOne({
         email,
     }).lean();
-};
+}
 
-const create = async (user: IUser): Promise<IUserModel> => {
+async function getByAny(user: Partial<IRegisterUserDto>): Promise<IUserModel | null> {
+    if (!user) {
+        // TODO: think about implementation of errors API
+        throw new TypeError('you must pass the user');
+    }
+
+    return UserModel.findOne({
+        $or: [{ email: user.email }, { username: user.username }],
+    }).lean();
+}
+
+async function create(user: IUser): Promise<IUserModel> {
     return new UserModel(user).save();
-};
+}
 
-export const userRepository = { getByEmail, create };
+export const userRepository = { getByEmail, getByAny, create };

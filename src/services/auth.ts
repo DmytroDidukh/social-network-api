@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 
+import { ApiConflictError } from 'libs/errors-api/instances';
 import { userRepository } from 'repositories/user';
 import { userService } from 'services/user';
 
@@ -15,10 +16,16 @@ async function hashPassword(password: string): Promise<string> {
 // }
 
 async function signUp(user: IRegisterUserDto): Promise<IUserDto> {
-    const existedUser = await userRepository.getByEmail(user.email);
+    const existedUser = await userRepository.getByAny({
+        email: user.email,
+        username: user.username,
+    });
 
     if (existedUser) {
-        throw new Error('EXIST');
+        throw new ApiConflictError({
+            resourceName: 'user',
+            resourceId: user.email === existedUser.email ? user.email : user.username,
+        });
     }
 
     const passwordHash = await hashPassword(user.password);

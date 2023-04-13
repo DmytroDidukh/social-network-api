@@ -1,6 +1,6 @@
 import { IUserModel, IUserDto } from 'types/interfaces/user';
 
-const mapModelToDto = (user: IUserModel): IUserDto => {
+function mapModelToDto(user: IUserModel): IUserDto {
     if (!user) {
         throw new TypeError('you must pass a user!');
     }
@@ -15,6 +15,6 @@ const mapModelToDto = (user: IUserModel): IUserDto => {
         coverPicture: user.coverPicture,
         isAdmin: user.isAdmin,
     };
-};
+}
 
 export const userService = { mapModelToDto };
