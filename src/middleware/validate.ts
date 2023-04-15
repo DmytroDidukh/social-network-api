@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { validationResult, ValidationError } from 'express-validator';
 import { ApiInvalidBodyError } from 'api/error';
+import { responseService } from 'services/response';
 
 function validate(req: Request, res: Response, next: NextFunction) {
     const errorFormatter = ({ msg }: ValidationError) => {
@@ -11,8 +12,7 @@ function validate(req: Request, res: Response, next: NextFunction) {
     if (!errors.isEmpty()) {
         const error = new ApiInvalidBodyError({ errors: errors.array() });
 
-        res.status(error.httpStatus);
-        res.send({ code: error.code, type: error.type, message: error.message });
+        responseService.sendError(res, error);
         return;
     }
 
