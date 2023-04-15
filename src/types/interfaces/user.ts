@@ -10,16 +10,20 @@ interface IUserBase {
     isAdmin?: boolean;
 }
 
-interface IUser extends IUserBase {
+interface IUserModel extends IUserBase {
     passwordHash: string;
+    createdAt: Date;
+    updatedAt: Date;
 }
 
-interface IUserModel extends IUser {
+interface IUserDocument extends IUserModel {
     _id: Types.ObjectId;
 }
 
 interface IUserDto extends IUserBase {
     id: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 interface ISignUpUserDto
@@ -36,4 +40,4 @@ interface ISingInUserDto {
     password: string;
 }
 
-export { IUser, IUserModel, IUserDto, ISignUpUserDto, ISingInUserDto };
+export { IUserModel, IUserDocument, IUserDto, ISignUpUserDto, ISingInUserDto };

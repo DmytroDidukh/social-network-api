@@ -1,6 +1,6 @@
-import { IUserModel, IUserDto } from 'types/interfaces/user';
+import { IUserDocument, IUserDto } from 'types/interfaces/user';
 
-function mapModelToDto(user: IUserModel): IUserDto {
+function mapModelToDto(user: IUserDocument): IUserDto {
     if (!user) {
         throw new TypeError('you must pass a user!');
     }
@@ -14,6 +14,8 @@ function mapModelToDto(user: IUserModel): IUserDto {
         profilePicture: user.profilePicture,
         coverPicture: user.coverPicture,
         isAdmin: user.isAdmin,
+        createdAt: user.createdAt.toISOString(),
+        updatedAt: user.updatedAt.toISOString(),
     };
 }
 
