@@ -7,7 +7,10 @@ import { validate } from 'middleware/validate';
 
 const router = express.Router();
 
-// REGISTER
-router.post('/sign-up', userValidator.registrationSchema, validate, authController.signUp);
+// SIGN-UP
+router.post('/sign-up', userValidator.signUpSchema, validate, authController.signUp);
+
+// SIGN-IN
+router.post('/sign-in', userValidator.signInSchema, validate, authController.signIn);
 
 export default router;
