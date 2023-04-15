@@ -1,14 +1,12 @@
-import { Request, Response } from 'express';
-
+import { Request } from 'express';
 import { authService } from 'services/auth';
 import { createController } from 'middleware/controller';
+import { IUserDto } from 'types/interfaces/user';
 
 const controller = createController();
 
-async function signUp(req: Request, res: Response): Promise<void> {
-    const newUser = await authService.signUp(req.body);
-
-    res.send(newUser);
+async function signUp(req: Request): Promise<IUserDto> {
+    return await authService.signUp(req.body);
 }
 
 export const authController = {

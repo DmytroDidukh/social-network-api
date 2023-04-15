@@ -1,6 +1,6 @@
 import { ApiBaseError } from './base-error';
-import { HTTP_STATUSES, ERROR_CODES } from '../constants';
-import { INotFoundErrorOptions } from '../types/interfaces';
+import { HTTP_STATUSES, ERROR_CODES } from 'constants/error';
+import { INotFoundErrorOptions } from 'types/interfaces/error';
 
 class ApiConflictError extends ApiBaseError {
     constructor(options: INotFoundErrorOptions) {
@@ -17,7 +17,7 @@ class ApiConflictError extends ApiBaseError {
             httpStatus,
             code,
             type,
-            message: `The ${resourceName} with parameter "${resourceId}" already exist.`,
+            message: `The ${resourceName} with parameter '${resourceId}' already exist.`,
             innerError,
         });
     }

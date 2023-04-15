@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
-
-import { HTTP_STATUSES } from 'libs/errors-api';
+import { HTTP_STATUSES } from 'constants/error';
 
 function controllerMiddleware(routeHandler) {
     return async function controllerMiddleware(req: Request, res: Response) {
@@ -9,11 +8,10 @@ function controllerMiddleware(routeHandler) {
 
             if (data === undefined) {
                 res.sendStatus(HTTP_STATUSES.NO_CONTENT);
-
                 return;
             }
 
-            res.send({ res, data });
+            res.send({ data });
         } catch (error) {
             res.status(error.httpStatus || HTTP_STATUSES.UNIMPLEMENTED);
             res.send({

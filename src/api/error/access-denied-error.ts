@@ -1,6 +1,6 @@
-import { ERROR_CODES, HTTP_STATUSES } from '../constants';
-import { IErrorOptions } from '../types/interfaces';
 import { ApiBaseError } from './base-error';
+import { ERROR_CODES, HTTP_STATUSES } from 'constants/error';
+import { IErrorOptions } from 'types/interfaces/error';
 
 class ApiAccessDeniedError extends ApiBaseError {
     constructor(options: IErrorOptions = {}) {

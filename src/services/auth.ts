@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt';
 
-import { ApiConflictError } from 'libs/errors-api/instances';
+import { ApiConflictError } from 'api/error';
 import { userRepository } from 'repositories/user';
 import { userService } from 'services/user';
 

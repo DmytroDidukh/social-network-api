@@ -1,6 +1,6 @@
 import { ApiBaseError } from './base-error';
-import { HTTP_STATUSES, ERROR_CODES } from '../constants';
-import { INotFoundErrorOptions } from '../types/interfaces';
+import { HTTP_STATUSES, ERROR_CODES } from 'constants/error';
+import { INotFoundErrorOptions } from 'types/interfaces/error';
 
 class ApiNotFoundError extends ApiBaseError {
     constructor(options: INotFoundErrorOptions) {
