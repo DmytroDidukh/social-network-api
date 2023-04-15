@@ -5,4 +5,5 @@ export * from './invalid-auth-error';
 export * from './invalid-body-error';
 export * from './not-found-error';
 export * from './request-timeout-error';
+export * from './sign-in-credentials-error';
 export * from './unknown-error';
