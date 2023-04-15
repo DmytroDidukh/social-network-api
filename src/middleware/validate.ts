@@ -9,14 +9,12 @@ function validate(req: Request, res: Response, next: NextFunction) {
     };
 
     const errors = validationResult(req).formatWith(errorFormatter);
-    if (!errors.isEmpty()) {
-        const error = new ApiInvalidBodyError({ errors: errors.array() });
-
-        responseService.sendError(res, error);
-        return;
+    if (errors.isEmpty()) {
+        return next();
     }
 
-    next();
+    const error = new ApiInvalidBodyError({ errors: errors.array() });
+    responseService.sendError(res, error);
 }
 
 export { validate };
