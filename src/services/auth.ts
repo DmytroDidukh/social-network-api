@@ -1,21 +1,19 @@
 import bcrypt from 'bcrypt';
-
-import { ApiConflictError } from 'api/error';
+import { ApiConflictError, ApiSignInCredentialsError } from 'api/error';
 import { userRepository } from 'repositories/user';
 import { userService } from 'services/user';
-
-import { IRegisterUserDto, IUserDto } from 'types/interfaces/user';
+import { ISignUpUserDto, ISingInUserDto, IUserDto } from 'types/interfaces/user';
 
 async function hashPassword(password: string): Promise<string> {
     const saltRounds = 12;
     return bcrypt.hash(password, saltRounds);
 }
 
-// async function comparePasswords(password: string, passwordHash: string): Promise<boolean> {
-//     return bcrypt.compare(password, passwordHash);
-// }
+async function comparePasswords(password: string, passwordHash: string): Promise<boolean> {
+    return bcrypt.compare(password, passwordHash);
+}
 
-async function signUp(user: IRegisterUserDto): Promise<IUserDto> {
+async function signUp(user: ISignUpUserDto): Promise<IUserDto> {
     const existedUser = await userRepository.getByAny({
         email: user.email,
         username: user.username,
@@ -39,4 +37,22 @@ async function signUp(user: IRegisterUserDto): Promise<IUserDto> {
     return userService.mapModelToDto(newUser);
 }
 
-export const authService = { signUp };
+async function signIn(user: ISingInUserDto): Promise<IUserDto> {
+    const existedUser = await userRepository.getByAny({
+        email: user.emailOrUsername,
+        username: user.emailOrUsername,
+    });
+
+    if (!existedUser) {
+        throw new ApiSignInCredentialsError();
+    }
+
+    const isPasswordMatch = await comparePasswords(user.password, existedUser.passwordHash);
+    if (!isPasswordMatch) {
+        throw new ApiSignInCredentialsError();
+    }
+
+    return userService.mapModelToDto(existedUser);
+}
+
+export const authService = { signUp, signIn };

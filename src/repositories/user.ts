@@ -1,5 +1,5 @@
 import { UserModel } from 'models/user';
-import { IRegisterUserDto, IUser, IUserModel } from 'types/interfaces/user';
+import { ISignUpUserDto, IUser, IUserModel } from 'types/interfaces/user';
 
 async function getByEmail(email: string): Promise<IUserModel | null> {
     if (!email) {
@@ -12,7 +12,7 @@ async function getByEmail(email: string): Promise<IUserModel | null> {
     }).lean();
 }
 
-async function getByAny(user: Partial<IRegisterUserDto>): Promise<IUserModel | null> {
+async function getByAny(user: Partial<ISignUpUserDto>): Promise<IUserModel | null> {
     if (!user) {
         // TODO: think about implementation of errors API
         throw new TypeError('you must pass the user');

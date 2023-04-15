@@ -22,7 +22,7 @@ interface IUserDto extends IUserBase {
     id: string;
 }
 
-interface IRegisterUserDto
+interface ISignUpUserDto
     extends Omit<
         IUserBase,
         'profilePicture' | 'coverPicture' | 'followers' | 'followings' | 'isAdmin'
@@ -31,4 +31,9 @@ interface IRegisterUserDto
     passwordConfirmation: string;
 }
 
-export { IUser, IUserModel, IUserDto, IRegisterUserDto };
+interface ISingInUserDto {
+    emailOrUsername: string;
+    password: string;
+}
+
+export { IUser, IUserModel, IUserDto, ISignUpUserDto, ISingInUserDto };
