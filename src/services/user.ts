@@ -1,18 +1,19 @@
 import { IUserDocument, IUserDto } from 'types/interfaces/user';
 
 function mapModelToDto(user: IUserDocument): IUserDto {
-    if (!user) {
-        throw new TypeError('you must pass a user!');
-    }
-
     return {
         id: user._id.toString(),
         email: user.email,
         username: user.username,
-        followers: user.followers,
-        followings: user.followings,
+        description: user.description,
+        city: user.city,
+        hometown: user.hometown,
+        birthDate: user.birthDate,
+        relationships: user.relationships,
         profilePicture: user.profilePicture,
         coverPicture: user.coverPicture,
+        followers: user.followers,
+        followings: user.followings,
         isAdmin: user.isAdmin,
         createdAt: user.createdAt.toISOString(),
         updatedAt: user.updatedAt.toISOString(),

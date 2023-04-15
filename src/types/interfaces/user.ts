@@ -1,8 +1,14 @@
 import { Types } from 'mongoose';
+import { USER_RELATIONSHIPS } from 'constants/user';
 
 interface IUserBase {
     username: string;
     email: string;
+    description?: string;
+    city?: string;
+    hometown?: string;
+    relationships?: USER_RELATIONSHIPS | null;
+    birthDate?: string;
     profilePicture?: string;
     coverPicture?: string;
     followers?: string[];
