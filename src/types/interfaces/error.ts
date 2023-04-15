@@ -1,5 +1,13 @@
 import { ERROR_CODES, HTTP_STATUSES } from 'constants/error';
 
+interface IBaseErrorOptions {
+    httpStatus: number;
+    message: string;
+    code: number;
+    type: string;
+    innerError?: Error;
+}
+
 interface IErrorOptions {
     code?: ERROR_CODES;
     httpStatus?: HTTP_STATUSES;
@@ -17,4 +25,4 @@ interface IInvalidBodyErrorOptions extends IErrorOptions {
     errors: string[];
 }
 
-export { IErrorOptions, INotFoundErrorOptions, IInvalidBodyErrorOptions };
+export { IBaseErrorOptions, IErrorOptions, INotFoundErrorOptions, IInvalidBodyErrorOptions };

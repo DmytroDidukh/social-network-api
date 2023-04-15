@@ -16,6 +16,7 @@ const registrationSchema = [
     body('username')
         .notEmpty()
         .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_EMPTY)
+        .bail()
         .isLength({ min: 2, max: 50 })
         .withMessage(USER_VALIDATION_ERROR_MESSAGES.USERNAME_INVALID),
 ];

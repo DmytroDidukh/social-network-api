@@ -1,21 +1,14 @@
 import { ERROR_CODES } from 'constants/error';
-
-interface IApiBaseErrorOptions {
-    httpStatus: number;
-    message: string;
-    code?: number;
-    type?: string;
-    innerError?: Error;
-}
+import { IBaseErrorOptions } from 'types/interfaces/error';
 
 class ApiBaseError extends Error {
     httpStatus: number;
     message: string;
-    code?: number;
-    type?: string;
+    code: number;
+    type: string;
     innerError?: Error;
 
-    constructor(options: IApiBaseErrorOptions) {
+    constructor(options: IBaseErrorOptions) {
         const {
             httpStatus,
             message,
