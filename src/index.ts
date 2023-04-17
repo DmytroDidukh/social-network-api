@@ -14,6 +14,7 @@ const app: Express = express();
 const mongoClientPromise = setupDatabase();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(morgan('common'));
@@ -25,13 +26,16 @@ app.use(
     session({
         secret: config.SESSION_SECRET,
         resave: false,
-        saveUninitialized: false,
+        saveUninitialized: true,
         cookie: {
             maxAge: 2592000000, // 30 days
+            // TODO: set "secure" to true if "https" website is available
+            secure: false,
         },
         store: MongoStore.create({
             clientPromise: mongoClientPromise,
             dbName: 'social-network',
+            collectionName: 'sessions',
             stringify: false,
             autoRemove: 'interval',
             autoRemoveInterval: 1,
