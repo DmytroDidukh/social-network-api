@@ -34,9 +34,10 @@
       "utils/*": ["src/utils/*"],
     }
   },
-  "include": ["src/**/*.ts", "libs/**/*.ts", "global.d.ts"],
+  "include": ["src/**/*.ts", "global.d.ts"],
   "exclude": ["node_modules"],
   "ts-node": {
-    "require": ["tsconfig-paths/register"]
+    "require": ["tsconfig-paths/register"],
+    "transpileOnly": true
   }
 }
