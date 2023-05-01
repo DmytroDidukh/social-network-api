@@ -1,10 +1,9 @@
-import express, { Response } from 'express';
+import express from 'express';
+import connectEnsureLogin from 'connect-ensure-login';
+import { userController } from 'controllers/user';
 
 const router = express.Router();
 
-router.get('/me', (_, res: Response) => {
-    console.log();
-    res.send('HELLO');
-});
+router.get('/me', connectEnsureLogin.ensureLoggedIn('/v1/loginerror'), userController.me);
 
 export default router;

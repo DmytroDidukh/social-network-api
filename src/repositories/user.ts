@@ -1,5 +1,5 @@
 import { UserModel } from 'models/user';
-import { ISignUpUserDto, IUserModel, IUserDocument } from 'types/interfaces/user';
+import { ISignUpUserDto, IUserDocument, IUserModel } from 'types/interfaces/user';
 
 async function getByEmail(email: string): Promise<IUserDocument | null> {
     return UserModel.findOne({
@@ -13,7 +13,9 @@ async function getByAny(user: Partial<ISignUpUserDto>): Promise<IUserDocument | 
     }).lean();
 }
 
-async function create(user: Omit<IUserModel, 'createdAt' | 'updatedAt'>): Promise<IUserDocument> {
+async function create(
+    user: Omit<IUserModel, '_id' | 'createdAt' | 'updatedAt'>,
+): Promise<IUserDocument> {
     return new UserModel(user).save();
 }
 

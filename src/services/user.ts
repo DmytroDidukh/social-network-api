@@ -1,6 +1,6 @@
-import { IUserDocument, IUserDto } from 'types/interfaces/user';
+import { IUserModel, IUserDto } from 'types/interfaces/user';
 
-function mapModelToDto(user: IUserDocument): IUserDto {
+function mapModelToDto(user: IUserModel): IUserDto {
     return {
         id: user._id.toString(),
         email: user.email,
@@ -14,7 +14,7 @@ function mapModelToDto(user: IUserDocument): IUserDto {
         coverPicture: user.coverPicture,
         followers: user.followers,
         followings: user.followings,
-        isAdmin: user.isAdmin,
+        accessType: user.accessType,
         createdAt: user.createdAt.toISOString(),
         updatedAt: user.updatedAt.toISOString(),
     };

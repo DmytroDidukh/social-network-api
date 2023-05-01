@@ -1,6 +1,4 @@
 import express, { Express } from 'express';
-import session from 'express-session';
-import MongoStore from 'connect-mongo';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -9,6 +7,7 @@ import morgan from 'morgan';
 import config from 'config/config';
 import { rootRouter } from 'routes/index';
 import { setupDatabase } from 'db/index';
+import { setupPassportAndSessions } from './passport';
 
 const app: Express = express();
 const mongoClientPromise = setupDatabase();
@@ -22,26 +21,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
-app.use(
-    session({
-        secret: config.SESSION_SECRET,
-        resave: false,
-        saveUninitialized: true,
-        cookie: {
-            maxAge: 2592000000, // 30 days
-            // TODO: set "secure" to true if "https" website is available
-            secure: false,
-        },
-        store: MongoStore.create({
-            clientPromise: mongoClientPromise,
-            dbName: 'social-network',
-            collectionName: 'sessions',
-            stringify: false,
-            autoRemove: 'interval',
-            autoRemoveInterval: 1,
-        }),
-    }),
-);
+// PASSPORT
+setupPassportAndSessions(app, mongoClientPromise);
 
 // ROUTES
 app.use(rootRouter);

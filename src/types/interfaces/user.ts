@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import { USER_RELATIONSHIPS } from 'constants/user';
+import { USER_ACCESS_TYPES, USER_RELATIONSHIPS } from 'constants/user';
 
 interface IUserBase {
     username: string;
@@ -13,17 +13,15 @@ interface IUserBase {
     coverPicture?: string;
     followers?: string[];
     followings?: string[];
-    isAdmin?: boolean;
+    accessType?: USER_ACCESS_TYPES;
 }
 
 interface IUserModel extends IUserBase {
-    passwordHash: string;
+    _id: Types.ObjectId;
+    salt: string;
+    hash: string;
     createdAt: Date;
     updatedAt: Date;
-}
-
-interface IUserDocument extends IUserModel {
-    _id: Types.ObjectId;
 }
 
 interface IUserDto extends IUserBase {
@@ -32,11 +30,7 @@ interface IUserDto extends IUserBase {
     updatedAt: string;
 }
 
-interface ISignUpUserDto
-    extends Omit<
-        IUserBase,
-        'profilePicture' | 'coverPicture' | 'followers' | 'followings' | 'isAdmin'
-    > {
+interface ISignUpUserDto extends IUserBase {
     password: string;
     passwordConfirmation: string;
 }
@@ -46,4 +40,4 @@ interface ISingInUserDto {
     password: string;
 }
 
-export { IUserModel, IUserDocument, IUserDto, ISignUpUserDto, ISingInUserDto };
+export { IUserModel, IUserDto, ISignUpUserDto, ISingInUserDto };
