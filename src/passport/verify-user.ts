@@ -7,7 +7,6 @@ async function verifyUser(emailOrUsername, password, done) {
         const user = await UserModel.findOne({
             $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
         });
-        console.log('USER: ', user);
 
         if (!user) {
             throw new ApiSignInCredentialsError();
@@ -19,9 +18,9 @@ async function verifyUser(emailOrUsername, password, done) {
             throw new ApiSignInCredentialsError();
         }
 
-        return done(null, user);
+        done(null, user);
     } catch (error) {
-        return done(error);
+        done(error);
     }
 }
 

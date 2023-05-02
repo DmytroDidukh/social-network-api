@@ -6,8 +6,9 @@ import flash from 'express-flash';
 import MongoStore from 'connect-mongo';
 import { Strategy as LocalStrategy } from 'passport-local';
 import config from 'config/config';
-import { UserModel } from 'models/user';
 import { verifyUser } from './verify-user';
+import { deserializeUser } from './deserialize-user';
+import { serializeUser } from './serialize-user';
 
 function setupPassportAndSessions(
     app: express.Application,
@@ -40,17 +41,8 @@ function setupPassportAndSessions(
     app.use(passport.session());
 
     passport.use(new LocalStrategy({ usernameField: 'emailOrUsername' }, verifyUser));
-    passport.serializeUser((user: any, done) => {
-        return done(null, user._id);
-    });
-    passport.deserializeUser(async (id: any, done) => {
-        try {
-            const user = await UserModel.findById(id);
-            return done(null, user);
-        } catch (error) {
-            return done(error);
-        }
-    });
+    passport.serializeUser(serializeUser);
+    passport.deserializeUser(deserializeUser);
 
     console.log('PASSPORT AND SESSIONS SET');
 }
