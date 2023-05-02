@@ -1,10 +1,12 @@
-import { ApiConflictError, ApiSignInCredentialsError } from 'api/error';
+import { Request } from 'express';
+import { ApiConflictError, ApiError, ApiSignInCredentialsError } from 'api/error';
 import { userRepository } from 'repositories/user';
 import { userService } from 'services/user';
 import { ISignUpUserDto, ISingInUserDto, IUserDto } from 'types/interfaces/user';
 import { passwordService } from 'services/password';
 
-async function signUp(user: ISignUpUserDto): Promise<IUserDto> {
+async function signUp(req: Request): Promise<IUserDto> {
+    const user: ISignUpUserDto = req.body;
     const existedUser = await userRepository.getByAny({
         email: user.email,
         username: user.username,
@@ -19,8 +21,19 @@ async function signUp(user: ISignUpUserDto): Promise<IUserDto> {
 
     const salt = await passwordService.getSalt();
     const passwordHash = await passwordService.hashPassword(user.password, salt);
+    const newUser = await userRepository.create({
+        username: user.username,
+        email: user.email,
+        hash: passwordHash,
+        salt,
+    });
 
-    const newUser = await userRepository.create({ ...user, hash: passwordHash, salt });
+    // TODO: Fix cookies (not set)
+    req.login(newUser, (err) => {
+        if (err) {
+            throw new ApiError();
+        }
+    });
 
     return userService.mapModelToDto(newUser);
 }

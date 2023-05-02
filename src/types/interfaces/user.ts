@@ -1,9 +1,12 @@
 import { Types } from 'mongoose';
 import { USER_ACCESS_TYPES, USER_RELATIONSHIPS } from 'constants/user';
 
-interface IUserBase {
+interface IUserShared {
     username: string;
     email: string;
+}
+
+interface IUserBase extends IUserShared {
     description?: string;
     city?: string;
     hometown?: string;
@@ -30,7 +33,7 @@ interface IUserDto extends IUserBase {
     updatedAt: string;
 }
 
-interface ISignUpUserDto extends IUserBase {
+interface ISignUpUserDto extends IUserShared {
     password: string;
     passwordConfirmation: string;
 }

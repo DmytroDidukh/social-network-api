@@ -9,17 +9,18 @@ import { ApiSignInCredentialsError } from 'api/error';
 const controller = createController();
 
 function signUp(req: Request): Promise<IUserDto> {
-    return authService.signUp(req.body);
+    return authService.signUp(req);
 }
 
 async function signIn(req: Request, res: Response, next: NextFunction) {
+    // TODO: Move to service
     return await new Promise((resolve, reject) => {
         passport.authenticate('local', (err: ApiSignInCredentialsError, user: IUserModel) => {
             if (err || !user) {
                 reject(err);
             }
 
-            req.logIn(user, (err) => {
+            req.login(user, (err) => {
                 if (err) {
                     reject(err);
                 }
