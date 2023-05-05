@@ -5,13 +5,14 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "nodemon src/index.ts",
+    "check-ts": "tsc --noEmit",
     "watch": "tsc -w",
     "lint:ts": "eslint **/*.ts --fix",
     "lint-staged": "lint-staged"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "npm run check-ts &&lint-staged"
     }
   },
   "lint-staged": {
