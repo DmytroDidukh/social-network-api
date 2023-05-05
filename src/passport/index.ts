@@ -6,6 +6,7 @@ import flash from 'express-flash';
 import MongoStore from 'connect-mongo';
 import { Strategy as LocalStrategy } from 'passport-local';
 import config from 'config/config';
+import { cookieService } from 'services/cookie';
 import { verifyUser } from './verify-user';
 import { deserializeUser } from './deserialize-user';
 import { serializeUser } from './serialize-user';
@@ -20,12 +21,8 @@ function setupPassportAndSessions(
             secret: config.SESSION_SECRET,
             resave: false,
             saveUninitialized: false,
-            name: 'socialNetwork',
-            cookie: {
-                maxAge: 2592000000, // 30 days
-                // TODO: set "secure" to true if "https" website is available
-                secure: false,
-            },
+            name: cookieService.getName(),
+            cookie: cookieService.getConfig(),
             store: MongoStore.create({
                 clientPromise: mongoClientPromise,
                 dbName: 'social-network',

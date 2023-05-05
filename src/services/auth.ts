@@ -1,8 +1,13 @@
-import { Request } from 'express';
-import { ApiConflictError, ApiError, ApiSignInCredentialsError } from 'api/error';
+import { NextFunction, Request, Response } from 'express';
+import passport from 'passport';
+import {
+    ApiConflictError,
+    ApiInvalidAuthenticationError,
+    ApiSignInCredentialsError,
+} from 'api/error';
 import { userRepository } from 'repositories/user';
 import { userService } from 'services/user';
-import { ISignUpUserDto, ISingInUserDto, IUserDto } from 'types/interfaces/user';
+import { ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 import { passwordService } from 'services/password';
 
 async function signUp(req: Request): Promise<IUserDto> {
@@ -28,32 +33,33 @@ async function signUp(req: Request): Promise<IUserDto> {
         salt,
     });
 
-    // TODO: Fix cookies (not set)
-    req.login(newUser, (err) => {
-        if (err) {
-            throw new ApiError();
-        }
-    });
+    return await new Promise((resolve, reject) => {
+        req.login(newUser, (err) => {
+            if (err) {
+                reject(new ApiInvalidAuthenticationError());
+            }
 
-    return userService.mapModelToDto(newUser);
+            resolve(userService.mapModelToDto(newUser));
+        });
+    });
 }
 
-async function signIn(user: ISingInUserDto): Promise<IUserDto> {
-    const existedUser = await userRepository.getByAny({
-        email: user.emailOrUsername,
-        username: user.emailOrUsername,
+async function signIn(req: Request, res: Response, next: NextFunction): Promise<IUserDto> {
+    return await new Promise((resolve, reject) => {
+        passport.authenticate('local', (err: ApiSignInCredentialsError, user: IUserModel) => {
+            if (err || !user) {
+                reject(err);
+            }
+
+            req.login(user, (err) => {
+                if (err) {
+                    reject(err);
+                }
+
+                resolve(userService.mapModelToDto(user));
+            });
+        })(req, res, next);
     });
-
-    if (!existedUser) {
-        throw new ApiSignInCredentialsError();
-    }
-
-    const isPasswordMatch = await passwordService.comparePasswords(user.password, existedUser.hash);
-    if (!isPasswordMatch) {
-        throw new ApiSignInCredentialsError();
-    }
-
-    return userService.mapModelToDto(existedUser);
 }
 
 export const authService = { signUp, signIn };

@@ -1,26 +1,27 @@
-import { UserModel } from 'models/user';
 import { ApiSignInCredentialsError } from 'api/error';
 import { passwordService } from 'services/password';
+import { userRepository } from 'repositories/user';
 
 async function verifyUser(emailOrUsername, password, done) {
     try {
-        const user = await UserModel.findOne({
-            $or: [{ email: emailOrUsername }, { username: emailOrUsername }],
+        const user = await userRepository.getByAny({
+            email: emailOrUsername,
+            username: emailOrUsername,
         });
 
         if (!user) {
-            throw new ApiSignInCredentialsError();
+            return done(new ApiSignInCredentialsError());
         }
 
         const isValidPassword = await passwordService.comparePasswords(password, user.hash);
 
         if (!isValidPassword) {
-            throw new ApiSignInCredentialsError();
+            return done(new ApiSignInCredentialsError());
         }
 
-        done(null, user);
+        return done(null, user);
     } catch (error) {
-        done(error);
+        return done(error);
     }
 }
 
