@@ -13,6 +13,7 @@ interface ENV {
     PORT: number | undefined;
     MONGO_URI: string | undefined;
     SESSION_SECRET: string | undefined;
+    COOKIE_NAME: string | undefined;
 }
 
 interface Config {
@@ -20,6 +21,7 @@ interface Config {
     PORT: number;
     MONGO_URI: string;
     SESSION_SECRET: string;
+    COOKIE_NAME: string;
 }
 
 // Loading process.env as ENV interface
@@ -30,6 +32,7 @@ const getConfig = (): ENV => {
         PORT: process.env.PORT ? Number(process.env.PORT) : 8080,
         MONGO_URI: process.env.MONGO_URI,
         SESSION_SECRET: process.env.SESSION_SECRET,
+        COOKIE_NAME: process.env.COOKIE_NAME,
     };
 };
 
