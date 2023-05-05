@@ -13,7 +13,7 @@ async function verifyUser(emailOrUsername, password, done) {
             return done(new ApiSignInCredentialsError());
         }
 
-        const isValidPassword = await passwordService.comparePasswords(password, user.hash);
+        const isValidPassword = await passwordService.compare(password, user.hash);
 
         if (!isValidPassword) {
             return done(new ApiSignInCredentialsError());

@@ -5,12 +5,12 @@ async function getSalt(): Promise<string> {
     return bcrypt.genSaltSync(saltRounds);
 }
 
-async function hashPassword(password: string, salt): Promise<string> {
+async function hash(password: string, salt): Promise<string> {
     return bcrypt.hash(password, salt);
 }
 
-async function comparePasswords(password: string, passwordHash: string): Promise<boolean> {
+async function compare(password: string, passwordHash: string): Promise<boolean> {
     return bcrypt.compare(password, passwordHash);
 }
 
-export const passwordService = { hashPassword, comparePasswords, getSalt };
+export const passwordService = { hash, compare, getSalt };

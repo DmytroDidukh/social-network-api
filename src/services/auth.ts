@@ -25,7 +25,7 @@ async function signUp(req: Request): Promise<IUserDto> {
     }
 
     const salt = await passwordService.getSalt();
-    const passwordHash = await passwordService.hashPassword(user.password, salt);
+    const passwordHash = await passwordService.hash(user.password, salt);
     const newUser = await userRepository.create({
         username: user.username,
         email: user.email,
