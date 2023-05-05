@@ -4,6 +4,6 @@ import { userController } from 'controllers/user';
 
 const router = express.Router();
 
-router.get('/me', connectEnsureLogin.ensureLoggedIn('/v1/loginerror'), userController.me);
+router.get('/me', connectEnsureLogin.ensureLoggedIn('/v1/auth-error'), userController.me);
 
 export default router;

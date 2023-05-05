@@ -7,7 +7,7 @@
     "start": "nodemon src/index.ts",
     "check-ts": "tsc --noEmit",
     "watch": "tsc -w",
-    "lint:ts": "eslint **/*.ts --fix",
+    "lint:ts": "eslint src/**/*.ts --fix",
     "lint-staged": "lint-staged"
   },
   "husky": {
@@ -16,7 +16,7 @@
     }
   },
   "lint-staged": {
-    "*.ts": [
+    "src/**/*.ts": [
       "prettier --write",
       "npm run lint:ts"
     ]
