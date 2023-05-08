@@ -7,8 +7,8 @@ import {
 } from 'api/error';
 import { userRepository } from 'repositories/user';
 import { userService } from 'services/user';
-import { ISignUpUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 import { passwordService } from 'services/password';
+import { ISignUpUserDto, IUserDto, IUserModel, IResponseMessage } from 'types/interfaces';
 
 async function signUp(req: Request): Promise<IUserDto> {
     const user: ISignUpUserDto = req.body;
@@ -62,4 +62,16 @@ async function signIn(req: Request, res: Response, next: NextFunction): Promise<
     });
 }
 
-export const authService = { signUp, signIn };
+async function signOut(req: Request): Promise<IResponseMessage> {
+    return await new Promise((resolve, reject) => {
+        req.session.destroy((err) => {
+            if (err) {
+                reject(err);
+            }
+
+            resolve({ message: 'You have been signed out' });
+        });
+    });
+}
+
+export const authService = { signUp, signIn, signOut };

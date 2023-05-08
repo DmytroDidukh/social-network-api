@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { authService } from 'services/auth';
 import { createController } from 'middleware/controller';
-import { IUserDto } from 'types/interfaces/user';
+import { IUserDto, IResponseMessage } from 'types/interfaces';
 
 const controller = createController();
 
@@ -13,7 +13,12 @@ async function signIn(req: Request, res: Response, next: NextFunction): Promise<
     return authService.signIn(req, res, next);
 }
 
+async function signOut(req: Request): Promise<IResponseMessage> {
+    return authService.signOut(req);
+}
+
 export const authController = {
     signUp: controller(signUp),
     signIn: controller(signIn),
+    signOut: controller(signOut),
 };
