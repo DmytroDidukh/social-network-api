@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { validationResult, ValidationError } from 'express-validator';
-import { ApiInvalidBodyError } from 'api/error';
+import { ApiInvalidParamsError } from 'api/error';
 import { responseService } from 'services/response';
 
 function validate(req: Request, res: Response, next: NextFunction) {
@@ -13,7 +13,7 @@ function validate(req: Request, res: Response, next: NextFunction) {
         return next();
     }
 
-    const error = new ApiInvalidBodyError({ errors: errors.array() });
+    const error = new ApiInvalidParamsError({ errors: errors.array() });
     responseService.sendError(res, error);
 }
 

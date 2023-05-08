@@ -3,15 +3,15 @@ import { HTTP_STATUSES, ERROR_CODES } from 'constants/error';
 import { convertErrorsArrayToMessage } from 'utils/convert-errors-array-to-messages';
 import { IInvalidBodyErrorOptions } from 'types/interfaces/error';
 
-class ApiInvalidBodyError extends ApiBaseError {
+class ApiInvalidParamsError extends ApiBaseError {
     constructor(options: IInvalidBodyErrorOptions) {
         const {
             httpStatus = HTTP_STATUSES.BAD_REQUEST,
-            code = ERROR_CODES.INVALID_BODY,
+            code = ERROR_CODES.INVALID_PARAMS,
             type = 'Invalid Body Parameters',
             message:
                 // eslint-disable-next-line max-len
-                initialMessage = 'The entries provided as body parameters were not valid for the request. Fix parameters and try again: ',
+                initialMessage = 'The entries provided as parameters were not valid for the request. Fix parameters and try again: ',
             errors,
             innerError,
         } = options;
@@ -28,4 +28,4 @@ class ApiInvalidBodyError extends ApiBaseError {
     }
 }
 
-export { ApiInvalidBodyError };
+export { ApiInvalidParamsError };

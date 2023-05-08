@@ -1,3 +1,4 @@
+// TODO: Split by AUTH and USER messages
 const USER_VALIDATION_ERROR_MESSAGES = {
     EMAIL: 'Please provide a valid email',
     PASSWORD:
@@ -8,6 +9,8 @@ const USER_VALIDATION_ERROR_MESSAGES = {
     USERNAME_EMPTY: 'Please provide your username',
     USERNAME_INVALID: 'Username  must contain at least 2 characters',
     USERNAME_OR_EMAIL_EMPTY: 'Please provide your username or email',
+    ACCESS_TYPE_INVALID: 'Invalid access type provided',
+    USER_ID_INVALID: 'Invalid user ID',
 };
 
 export { USER_VALIDATION_ERROR_MESSAGES };

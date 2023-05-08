@@ -1,4 +1,7 @@
 import { IUserModel, IUserDto } from 'types/interfaces/user';
+import { userRepository } from 'repositories/user';
+import { ApiNotFoundError } from 'api/error';
+import { USER_ACCESS_TYPES } from 'constants/user';
 
 function mapModelToDto(user: IUserModel): IUserDto {
     return {
@@ -20,4 +23,16 @@ function mapModelToDto(user: IUserModel): IUserDto {
     };
 }
 
-export const userService = { mapModelToDto };
+async function updateAccessType(id: string, accessType: USER_ACCESS_TYPES): Promise<IUserDto> {
+    const user = await userRepository.getById(id);
+
+    if (!user) {
+        throw new ApiNotFoundError({ resourceId: id, resourceName: 'user' });
+    }
+
+    const updatedUser = await userRepository.updateOneField(id, 'accessType', accessType);
+
+    return this.mapModelToDto(updatedUser);
+}
+
+export const userService = { mapModelToDto, updateAccessType };
