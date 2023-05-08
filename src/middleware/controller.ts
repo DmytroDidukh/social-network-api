@@ -14,7 +14,7 @@ function controllerMiddleware(routeHandler) {
 
             responseService.sendResponse(res, data);
         } catch (error) {
-            responseService.sendError(res, error);
+            throw error;
         }
     };
 }

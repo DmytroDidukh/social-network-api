@@ -8,6 +8,7 @@ import config from 'config/config';
 import { rootRouter } from 'routes/index';
 import { setupDatabase } from 'db/index';
 import { setupPassportAndSessions } from './passport';
+import { errorHandlerMiddleware } from 'middleware/error-handler';
 
 const app: Express = express();
 const mongoClientPromise = setupDatabase();
@@ -26,6 +27,9 @@ setupPassportAndSessions(app, mongoClientPromise);
 
 // ROUTES
 app.use(rootRouter);
+
+// ERROR HANDLER
+app.use(errorHandlerMiddleware);
 
 app.listen(config.PORT, () => {
     console.log(`SERVER IS STARTED ON ${config.PORT}`);
