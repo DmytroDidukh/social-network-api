@@ -1,4 +1,4 @@
-import { IUserModel, IUserDto } from 'types/interfaces/user';
+import { IUserDto, IUserModel } from 'types/interfaces/user';
 import { userRepository } from 'repositories/user';
 import { ApiNotFoundError } from 'api/error';
 import { USER_ACCESS_TYPES } from 'constants/user';
@@ -35,4 +35,12 @@ async function updateAccessType(id: string, accessType: USER_ACCESS_TYPES): Prom
     return this.mapModelToDto(updatedUser);
 }
 
-export const userService = { mapModelToDto, updateAccessType };
+function checkBannedAccessType(accessType: USER_ACCESS_TYPES): boolean {
+    return accessType === USER_ACCESS_TYPES.BANNED;
+}
+
+export const userService = {
+    mapModelToDto,
+    updateAccessType,
+    checkBanStatus: checkBannedAccessType,
+};

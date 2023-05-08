@@ -2,7 +2,7 @@ import express from 'express';
 import connectEnsureLogin from 'connect-ensure-login';
 import { authValidator } from 'middleware/validators/auth-validator';
 import { authController } from 'controllers/auth';
-import { validate } from 'middleware/validate';
+import { validate, bannedUserMiddleware } from 'middleware/index';
 import { registerRoute } from 'utils/route';
 import { HTTP_METHODS } from 'constants/common';
 
@@ -25,6 +25,7 @@ registerRoute(
     '/sign-in',
     ...authValidator.signInSchema,
     validate,
+    bannedUserMiddleware,
     authController.signIn,
 );
 
@@ -34,6 +35,7 @@ registerRoute(
     HTTP_METHODS.POST,
     '/sign-out',
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
+    bannedUserMiddleware,
     authController.signOut,
 );
 
