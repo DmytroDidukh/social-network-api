@@ -10,6 +10,7 @@ import { cookieService } from 'services/cookie';
 import { verifyUser } from './verify-user';
 import { deserializeUser } from './deserialize-user';
 import { serializeUser } from './serialize-user';
+import { USER_FIELDS_NAMES } from 'constants/user';
 
 function setupPassportAndSessions(
     app: express.Application,
@@ -37,7 +38,9 @@ function setupPassportAndSessions(
     app.use(passport.initialize());
     app.use(passport.session());
 
-    passport.use(new LocalStrategy({ usernameField: 'emailOrUsername' }, verifyUser));
+    passport.use(
+        new LocalStrategy({ usernameField: USER_FIELDS_NAMES.EMAIL_OR_USERNAME }, verifyUser),
+    );
     passport.serializeUser(serializeUser);
     passport.deserializeUser(deserializeUser);
 

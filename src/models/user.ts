@@ -1,23 +1,23 @@
 import { Schema, model } from 'mongoose';
 import { IUserModel } from 'types/interfaces/user';
-import { USER_ACCESS_TYPES } from 'constants/user';
+import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'constants/user';
 
 const userSchema = new Schema<IUserModel>(
     {
-        username: { type: String, required: true, unique: true },
-        email: { type: String, required: true, unique: true },
-        hash: { type: String, required: true },
-        salt: { type: String, required: true },
-        description: { type: String, default: '' },
-        city: { type: String, default: '' },
-        hometown: { type: String, default: '' },
-        birthDate: { type: String, default: '' },
-        relationships: { type: String, default: null },
-        profilePicture: { type: String, default: '' },
-        coverPicture: { type: String, default: '' },
-        followers: { type: [String], default: [] },
-        followings: { type: [String], default: [] },
-        accessType: { type: String, default: USER_ACCESS_TYPES.USER },
+        [USER_FIELDS_NAMES.USERNAME]: { type: String, required: true, unique: true },
+        [USER_FIELDS_NAMES.EMAIL]: { type: String, required: true, unique: true },
+        [USER_FIELDS_NAMES.DESCRIPTION]: { type: String, default: '' },
+        [USER_FIELDS_NAMES.CITY]: { type: String, default: '' },
+        [USER_FIELDS_NAMES.HOMETOWN]: { type: String, default: '' },
+        [USER_FIELDS_NAMES.BIRTH_DATE]: { type: String, default: '' },
+        [USER_FIELDS_NAMES.RELATIONSHIPS]: { type: String, default: null },
+        [USER_FIELDS_NAMES.PROFILE_PICTURE]: { type: String, default: '' },
+        [USER_FIELDS_NAMES.COVER_PICTURE]: { type: String, default: '' },
+        [USER_FIELDS_NAMES.FOLLOWERS]: { type: [String], default: [] },
+        [USER_FIELDS_NAMES.FOLLOWINGS]: { type: [String], default: [] },
+        [USER_FIELDS_NAMES.ACCESS_TYPE]: { type: String, default: USER_ACCESS_TYPES.USER },
+        [USER_FIELDS_NAMES.HASH]: { type: String, required: true },
+        [USER_FIELDS_NAMES.SALT]: { type: String, required: true },
     },
     { timestamps: true },
 );
