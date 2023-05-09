@@ -25,7 +25,6 @@ registerRoute(
     '/sign-in',
     ...authValidator.signInSchema,
     validate,
-    bannedUserMiddleware,
     authController.signIn,
 );
 

@@ -1,6 +1,7 @@
-import { ApiSignInCredentialsError } from 'api/error';
+import { ApiAccessDeniedError, ApiSignInCredentialsError } from 'api/error';
 import { passwordService } from 'services/password';
 import { userRepository } from 'repositories/user';
+import { userService } from 'services/user';
 
 async function verifyUser(emailOrUsername, password, done) {
     try {
@@ -14,9 +15,13 @@ async function verifyUser(emailOrUsername, password, done) {
         }
 
         const isValidPassword = await passwordService.compare(password, user.hash);
-
         if (!isValidPassword) {
             return done(new ApiSignInCredentialsError());
+        }
+
+        const isBanned = userService.checkBanStatus(user.accessType);
+        if (isBanned) {
+            return done(new ApiAccessDeniedError({ message: 'Current user is banned' }));
         }
 
         return done(null, user);
