@@ -1,10 +1,18 @@
 import { NextFunction, Request, Response } from 'express';
-import { validationResult, ValidationError } from 'express-validator';
+import { validationResult, ValidationError, FieldValidationError } from 'express-validator';
 import { ApiInvalidParamsError } from 'api/error';
 
+function isFieldValidationError(error: ValidationError): error is FieldValidationError {
+    return (error as FieldValidationError).location !== undefined;
+}
+
 function validate(req: Request, res: Response, next: NextFunction) {
-    const errorFormatter = ({ msg }: ValidationError) => {
-        return msg;
+    const errorFormatter = (error: ValidationError) => {
+        if (isFieldValidationError(error)) {
+            return `${error.msg} (${error.location})`;
+        }
+
+        return error.msg;
     };
 
     const errors = validationResult(req).formatWith(errorFormatter);

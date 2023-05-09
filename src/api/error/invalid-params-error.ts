@@ -8,7 +8,7 @@ class ApiInvalidParamsError extends ApiBaseError {
         const {
             httpStatus = HTTP_STATUSES.BAD_REQUEST,
             code = ERROR_CODES.INVALID_PARAMS,
-            type = 'Invalid Body Parameters',
+            type = 'Invalid Request Parameters',
             message:
                 // eslint-disable-next-line max-len
                 initialMessage = 'The entries provided as parameters were not valid for the request. Fix parameters and try again: ',

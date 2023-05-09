@@ -2,7 +2,7 @@ export * from './access-denied-error';
 export * from './api-error';
 export * from './conflict-error';
 export * from './invalid-auth-error';
-export * from './invalid-body-error';
+export * from './invalid-params-error';
 export * from './not-found-error';
 export * from './request-timeout-error';
 export * from './sign-in-credentials-error';
