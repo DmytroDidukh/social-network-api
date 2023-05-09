@@ -3,7 +3,7 @@ import connectEnsureLogin from 'connect-ensure-login';
 import { userController } from 'controllers/user';
 import { userValidator } from 'middleware/validators/user-validator';
 import {
-    checkPermissionToUpdateAccessType,
+    checkPermissionToUpdateUserAccessType,
     bannedUserMiddleware,
     validate,
 } from 'middleware/index';
@@ -22,8 +22,19 @@ registerRoute(
     userController.me,
 );
 
+// UPDATE USER
+registerRoute(
+    router,
+    HTTP_METHODS.PUT,
+    '/:id',
+    ...userValidator.updateDataSchema,
+    validate,
+    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
+    bannedUserMiddleware,
+    userController.update,
+);
+
 // UPDATE ACCESS TYPE
-// TODO: Handle yourself access type updates
 registerRoute(
     router,
     HTTP_METHODS.PUT,
@@ -31,7 +42,7 @@ registerRoute(
     ...userValidator.updateAccessTypeSchema,
     validate,
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
-    checkPermissionToUpdateAccessType,
+    checkPermissionToUpdateUserAccessType,
     userController.updateAccessType,
 );
 

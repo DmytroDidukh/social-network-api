@@ -4,7 +4,12 @@ import { ApiAccessDeniedError, ApiNotFoundError } from 'api/error';
 import { userRepository } from 'repositories/user';
 import { IUserModel } from 'types/interfaces';
 
-async function checkPermissionToUpdateAccessType(req: Request, res: Response, next: NextFunction) {
+// TODO: Consider moving it to userService since it used only in one place
+async function checkPermissionToUpdateUserAccessType(
+    req: Request,
+    res: Response,
+    next: NextFunction,
+) {
     const currentUser = req.user as IUserModel;
     const currentUserId = currentUser._id.toString();
     const targetUserId: string = req.params.id;
@@ -37,4 +42,4 @@ async function checkPermissionToUpdateAccessType(req: Request, res: Response, ne
     }
 }
 
-export { checkPermissionToUpdateAccessType };
+export { checkPermissionToUpdateUserAccessType };

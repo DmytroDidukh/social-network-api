@@ -1,5 +1,5 @@
 import { UserModel } from 'models/user';
-import { ISignUpUserDto, IUserModel } from 'types/interfaces/user';
+import { ISignUpUserDto, IUpdateUserDto, IUserModel } from 'types/interfaces/user';
 
 async function getByEmail(email: string): Promise<IUserModel | null> {
     return UserModel.findOne({
@@ -35,10 +35,17 @@ async function updateOneField<T extends keyof Omit<IUserModel, '_id'>>(
     return this.getById(id);
 }
 
+async function update(id: string, data: IUpdateUserDto): Promise<IUserModel> {
+    await UserModel.updateOne({ _id: id }, data);
+
+    return this.getById(id);
+}
+
 export const userRepository = {
     getByEmail,
     getById,
     getByAny,
     create,
     updateOneField,
+    update,
 };

@@ -38,9 +38,17 @@ interface ISignUpUserDto extends IUserShared {
     passwordConfirmation: string;
 }
 
-interface ISingInUserDto {
-    emailOrUsername: string;
-    password: string;
-}
+// TODO: add "email" and "username"
+interface IUpdateUserDto
+    extends Pick<
+        IUserDto,
+        | 'description'
+        | 'city'
+        | 'hometown'
+        | 'relationships'
+        | 'birthDate'
+        | 'profilePicture'
+        | 'coverPicture'
+    > {}
 
-export { IUserModel, IUserDto, ISignUpUserDto, ISingInUserDto };
+export { IUserModel, IUserDto, ISignUpUserDto, IUpdateUserDto };
