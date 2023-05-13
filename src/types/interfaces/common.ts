@@ -2,4 +2,8 @@ interface IResponseMessage {
     message: string;
 }
 
-export { IResponseMessage };
+interface IResponseDateMessage extends IResponseMessage {
+    irrevocablyDeletedAt?: string;
+}
+
+export { IResponseMessage, IResponseDateMessage };

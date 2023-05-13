@@ -67,7 +67,15 @@ const updateDataSchema: ValidationChain[] = [
     ]),
 ];
 
+const deleteSchema: ValidationChain[] = [
+    param(USER_FIELDS_NAMES.ID)
+        .isMongoId()
+        .withMessage(USER_VALIDATION_ERROR_MESSAGES.USER_ID_INVALID),
+    ...createNotAllowedBodySchema([]),
+];
+
 export const userValidator = {
     updateAccessTypeSchema,
     updateDataSchema,
+    deleteSchema,
 };

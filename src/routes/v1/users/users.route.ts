@@ -31,7 +31,19 @@ registerRoute(
     validate,
     connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
     bannedUserMiddleware,
-    userController.update,
+    userController.updateMe,
+);
+
+// DELETE USER
+registerRoute(
+    router,
+    HTTP_METHODS.DELETE,
+    '/:id',
+    ...userValidator.deleteSchema,
+    validate,
+    connectEnsureLogin.ensureLoggedIn('/v1/auth-error'),
+    bannedUserMiddleware,
+    userController.deleteMe,
 );
 
 // UPDATE ACCESS TYPE

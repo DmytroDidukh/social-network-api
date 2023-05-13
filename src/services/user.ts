@@ -1,7 +1,8 @@
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
 import { userRepository } from 'repositories/user';
 import { ApiAccessDeniedError, ApiNotFoundError } from 'api/error';
-import { USER_ACCESS_TYPES } from 'constants/user';
+import { USER_ACCESS_TYPES, USER_FIELDS_NAMES } from 'constants/user';
+import { IResponseDateMessage } from 'types/interfaces';
 
 function mapModelToDto(user: IUserModel): IUserDto {
     return {
@@ -23,7 +24,7 @@ function mapModelToDto(user: IUserModel): IUserDto {
     };
 }
 
-async function update(
+async function updateMe(
     currentUserId: string,
     targetUserId: string,
     data: IUpdateUserDto,
@@ -44,6 +45,31 @@ async function update(
     return this.mapModelToDto(updatedUser);
 }
 
+async function deleteMe(
+    currentUserId: string,
+    targetUserId: string,
+): Promise<IResponseDateMessage> {
+    const user = await userRepository.getById(targetUserId);
+
+    if (!user) {
+        throw new ApiNotFoundError({ resourceId: targetUserId, resourceName: 'user' });
+    }
+
+    const userId = this.getIdFromModel(user);
+    if (currentUserId !== userId) {
+        throw new ApiAccessDeniedError({ message: 'User can delete only own data' });
+    }
+
+    await userRepository.updateOneField(targetUserId, USER_FIELDS_NAMES.IS_ACTIVE, false);
+    // TODO: MOVE IT OUT
+    const currentDate = new Date(); // current date
+    currentDate.setDate(currentDate.getDate() + 30); // add 30 days to current date
+    const irrevocablyDeletedAt = currentDate.toISOString();
+    // TODO: Add checker script that runs around and check inactive users that should be deleted
+
+    return { message: "You've successfully deleted your account", irrevocablyDeletedAt };
+}
+
 async function updateAccessType(id: string, accessType: USER_ACCESS_TYPES): Promise<IUserDto> {
     const user = await userRepository.getById(id);
 
@@ -51,7 +77,11 @@ async function updateAccessType(id: string, accessType: USER_ACCESS_TYPES): Prom
         throw new ApiNotFoundError({ resourceId: id, resourceName: 'user' });
     }
 
-    const updatedUser = await userRepository.updateOneField(id, 'accessType', accessType);
+    const updatedUser = await userRepository.updateOneField(
+        id,
+        USER_FIELDS_NAMES.ACCESS_TYPE,
+        accessType,
+    );
 
     return this.mapModelToDto(updatedUser);
 }
@@ -70,7 +100,8 @@ function getIdFromModel(user: IUserModel): string {
 
 export const userService = {
     mapModelToDto,
-    update,
+    updateMe,
+    deleteMe,
     updateAccessType,
     checkBanStatus: checkBannedAccessType,
     getIdFromModel,

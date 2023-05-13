@@ -23,6 +23,7 @@ interface IUserModel extends IUserBase {
     _id: Types.ObjectId;
     salt: string;
     hash: string;
+    isActive?: boolean;
     createdAt: Date;
     updatedAt: Date;
 }

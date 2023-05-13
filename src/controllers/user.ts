@@ -2,6 +2,7 @@ import { Request } from 'express';
 import { createController } from 'middleware/controller';
 import { userService } from 'services/user';
 import { IUpdateUserDto, IUserDto, IUserModel } from 'types/interfaces/user';
+import { IResponseDateMessage } from 'types/interfaces';
 
 const controller = createController();
 
@@ -11,12 +12,19 @@ function myProfile(req: Request): IUserDto {
     return userService.mapModelToDto(user);
 }
 
-function update(req: Request): Promise<IUserDto> {
+function updateMe(req: Request): Promise<IUserDto> {
     const currentUserId = userService.getIdFromModel(req.user as IUserModel);
     const targetUserId = req.params.id as string;
     const data = req.body as IUpdateUserDto;
 
-    return userService.update(currentUserId, targetUserId, data);
+    return userService.updateMe(currentUserId, targetUserId, data);
+}
+
+function deleteMe(req: Request): Promise<IResponseDateMessage> {
+    const currentUserId = userService.getIdFromModel(req.user as IUserModel);
+    const targetUserId = req.params.id as string;
+
+    return userService.deleteMe(currentUserId, targetUserId);
 }
 
 function updateAccessType(req: Request): Promise<IUserDto> {
@@ -28,6 +36,7 @@ function updateAccessType(req: Request): Promise<IUserDto> {
 
 export const userController = {
     me: controller(myProfile),
-    update: controller(update),
+    updateMe: controller(updateMe),
+    deleteMe: controller(deleteMe),
     updateAccessType: controller(updateAccessType),
 };

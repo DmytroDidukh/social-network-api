@@ -16,6 +16,7 @@ const userSchema = new Schema<IUserModel>(
         [USER_FIELDS_NAMES.FOLLOWERS]: { type: [String], default: [] },
         [USER_FIELDS_NAMES.FOLLOWINGS]: { type: [String], default: [] },
         [USER_FIELDS_NAMES.ACCESS_TYPE]: { type: String, default: USER_ACCESS_TYPES.USER },
+        [USER_FIELDS_NAMES.IS_ACTIVE]: { type: Boolean, default: true },
         [USER_FIELDS_NAMES.HASH]: { type: String, required: true },
         [USER_FIELDS_NAMES.SALT]: { type: String, required: true },
     },
