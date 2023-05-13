@@ -16,7 +16,7 @@ const signUpSchema: ValidationChain[] = [
         .withMessage(USER_VALIDATION_ERROR_MESSAGES.PASSWORD),
     body(USER_FIELDS_NAMES.PASSWORD_CONFIRMATION).custom((value, { req }) => {
         if (value !== req.body.password) {
-            throw new Error('Password confirmation does not match password');
+            throw new Error(USER_VALIDATION_ERROR_MESSAGES.PASSWORD_CONFIRMATION);
         }
 
         return true;
